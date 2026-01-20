@@ -1,9 +1,9 @@
 [package]
 name = "acidraps/cut3rroblox"
-version = "0.4.0"
+version = "0.4.1"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
-license = "GPL-3.0-only"
+license = "GPL-3.0"
 description = "Wally package for Cut3rRoblox"
 
 [dependencies]
