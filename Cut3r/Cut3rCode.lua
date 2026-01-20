@@ -18,7 +18,11 @@ local Settings = {
 
 --services
 local GeoService = game:GetService("GeometryService")
-local ConstraintSolver = require(script.Constraints) -- Code by Roblox themselves.
+local ConstraintSolver = require(script.Parent.Constraints) -- Code by Roblox themselves.
+local SlicerTemplate = script:FindFirstChild("Slicer") or script.Parent:FindFirstChild("Slicer")
+if not SlicerTemplate then
+	error("Cut3r dependency missing: Slicer")
+end
 
 local function resize(part:BasePart,increment,Dimension:Vector3)
 	
@@ -266,7 +270,7 @@ local function internalCSGChunk(Part:BasePart ,UseCFrameOffset:boolean, Size:Vec
 end
 
 local function internalSliceTableShatter(Parts,UseCFrameOffset:boolean,Extension:number)
-	local newSlicer = script.Slicer:Clone()
+	local newSlicer = SlicerTemplate:Clone()
 	local sparts = Parts
 	if typeof(Parts) == "table" then
 		local returnChildren = {}
@@ -282,7 +286,7 @@ end
 -- the fun stuff, Functions
 
 function Cut:Slice(Parts,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number)
-	local newSlicer = script.Slicer:Clone()
+	local newSlicer = SlicerTemplate:Clone()
 	if Parts:IsA("BasePart") then
 		local Part = Parts
 		if Part:IsA("Part") or Part:IsA("UnionOperation") then
@@ -305,7 +309,7 @@ function Cut:Slice(Parts,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:n
 end
 
 function Cut:SliceTable(Parts,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number)
-	local newSlicer = script.Slicer:Clone()
+	local newSlicer = SlicerTemplate:Clone()
 
 
 
@@ -325,7 +329,7 @@ function Cut:SliceTable(Parts,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extens
 end
 
 function Cut:Shatter(Parts:Instance,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number,ExtraIterations:number)
-	local newSlicer = script.Slicer:Clone()
+	local newSlicer = SlicerTemplate:Clone()
 	local Results
 	
 	if Parts:IsA("BasePart") then
@@ -355,7 +359,7 @@ end
 
 function Cut:Crush(Part:Instance,UseCFrameOffset:boolean,CFrameOffset:CFrame,Extension:number,ExtraIterations:number,DistanceThreshHold:number)
 	-- Voronoi Implimentation of Shatter
-	local newSlicer = script.Slicer:Clone()
+	local newSlicer = SlicerTemplate:Clone()
 	local Results = {}
 
 	if Part:IsA("BasePart") then
@@ -410,7 +414,7 @@ function Cut:Crush(Part:Instance,UseCFrameOffset:boolean,CFrameOffset:CFrame,Ext
 					local midpoint = (point.Position + otherPoint.Position) / 2
 					local cframe = CFrame.new(midpoint, otherPoint.Position)
 
-					local result = internalCSGCut(cell, script.Slicer, 100, false, cframe)[1]
+					local result = internalCSGCut(cell, SlicerTemplate, 100, false, cframe)[1]
 
 					if result then
 						cell = result
