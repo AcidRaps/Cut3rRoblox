@@ -1,1 +1,1 @@
-return require(script.Parent.src.cut3rroblox)
+return require(script.src.cut3rroblox)
